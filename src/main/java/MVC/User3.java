@@ -5,12 +5,14 @@ import MVC.Service.LazySingleton.UserName.UserNameManager;
 
 import java.io.IOException;
 
-public class User1 {
+public class User3 {
     public static void main(String[] args) throws IOException {
-        UserNameManager.getInstance().setUsername("Nam02");
+        UserNameManager.getInstance().setUsername("Linh02");
+
 
         ClientManager clientManager = new ClientManager();
         clientManager.initializeClient();
+
 
     }
 }

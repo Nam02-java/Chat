@@ -2,6 +2,7 @@ package MVC.Controller.Client.Networking.Output;
 
 import MVC.Service.InterfaceService.IO.SocketDataOutput;
 import MVC.Service.InterfaceService.IO.UserInputReceiver;
+import MVC.Service.LazySingleton.UserName.UserNameManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,7 +21,7 @@ public class OutputDataToServer {
     public void sendData(Socket serverSocket) throws IOException {
         BufferedReader userInput = userInputReceiver.getData();
         while (true) {
-            String messageToSend = userInput.readLine();
+            String messageToSend = UserNameManager.getInstance().getUsername() + " : " + userInput.readLine();
             socketDataOutput.sendData(serverSocket, messageToSend);
         }
     }

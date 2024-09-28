@@ -2,6 +2,7 @@ package MVC.Controller.Server.Networking.Input;
 
 import MVC.Controller.Server.Networking.Output.OutputDataToClient;
 import MVC.Service.InterfaceService.IO.SocketInputReader;
+import MVC.Service.LazySingleton.UserName.UserNameManager;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -24,7 +25,7 @@ public class InputDataFromClient {
         String messageFromClient;
         try {
             while ((messageFromClient = inFromClient.readLine()) != null) {
-                System.out.println("Received to server : " + messageFromClient);
+                System.out.println(messageFromClient);
                 outputDataToClient.sendData(socket, messageFromClient);
             }
         } catch (IOException e) {

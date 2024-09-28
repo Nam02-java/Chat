@@ -1,5 +1,6 @@
 package MVC.Controller.Client.Networking.Input;
 
+import MVC.Service.LazySingleton.UserName.UserNameManager;
 import MVC.Service.InterfaceService.IO.SocketInputReader;
 
 import java.io.BufferedReader;
@@ -21,7 +22,11 @@ public class InputDataFromServer {
             try {
                 String messageFromServer;
                 while ((messageFromServer = inFromServer.readLine()) != null) {
-                    System.out.println("Received: " + messageFromServer);
+                    if(messageFromServer.contains(UserNameManager.getInstance().getUsername())){
+                        String userName = UserNameManager.getInstance().getUsername();
+                        messageFromServer = messageFromServer.replaceFirst(userName + " : ", "");
+                    }
+                    System.out.println(messageFromServer);
                 }
             } catch (IOException e) {
                 e.printStackTrace();
