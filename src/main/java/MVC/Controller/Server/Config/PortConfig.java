@@ -9,7 +9,6 @@ public class PortConfig {
 
     private ServerSocketInitialization serverSocketInitialization;
 
-
     public PortConfig(ServerSocketInitialization serverSocketInitialization) {
         this.serverSocketInitialization = serverSocketInitialization;
     }
