@@ -21,6 +21,9 @@ public class OutputDataToServer {
         BufferedReader userInput = userInputReceiver.getData();
         while (true) {
             String messageToSend = UserNameManager.getInstance().getUsername() + " : " + userInput.readLine();
+            if (messageToSend.contains("1")) {
+                messageToSend = UserNameManager.getInstance().getUsername() + " : - request history data";
+            }
             socketDataOutput.sendData(serverSocket, messageToSend);
         }
     }
