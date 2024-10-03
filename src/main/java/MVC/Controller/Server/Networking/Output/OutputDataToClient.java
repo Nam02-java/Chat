@@ -33,32 +33,21 @@ public class OutputDataToClient {
                 System.out.println(messageFromClient);
 
                 if (messageFromClient.contains("- request history data")) {
-                    Data.getClientSocketLoadingHistory().add(clientSocket);
                     List<String> listChatHistory = readLogServer.read(data);
                     for (String message : listChatHistory) {
-                        Thread.sleep(1000);
-                        socketDataOutput.sendData(clientSocket, message);
+                        socketDataOutput.sendData(clientSocket, "Old message ( " + message + " ) - total message " + listChatHistory.size());
                     }
-                    Data.getClientSocketLoadingHistory().remove(clientSocket);
 
                 } else {
-                    System.out.println(Data.getClientSocketLoadingHistory().size());
-                    while (Data.getClientSocketLoadingHistory().isEmpty()) {
-                        for (Socket socket : Data.getClientSockets()) {
-                            if (socket != clientSocket) {
-                                if (Data.getClientSocketLoadingHistory().contains(socket)) {
-
-                                }
-                                socketDataOutput.sendData(socket, messageFromClient);
-                            }
+                    for (Socket socket : Data.getClientSockets()) {
+                        if (socket != clientSocket) {
+                            socketDataOutput.sendData(socket, messageFromClient);
                         }
                     }
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
         }
     }
 }

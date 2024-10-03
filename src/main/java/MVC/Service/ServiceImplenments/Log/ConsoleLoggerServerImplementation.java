@@ -1,5 +1,6 @@
 package MVC.Service.ServiceImplenments.Log;
 
+import MVC.Model.Data;
 import MVC.Service.InterfaceService.Log.ConsoleLoggerServer;
 
 import java.io.*;
@@ -7,7 +8,7 @@ import java.io.*;
 public class ConsoleLoggerServerImplementation implements ConsoleLoggerServer {
     @Override
     public void save() throws FileNotFoundException {
-        FileOutputStream logFile = new FileOutputStream("E:\\Test.txt", true);
+        FileOutputStream logFile = new FileOutputStream(Data.getFilePath(), true);
 
         PrintStream consoleOut = System.out;
 
@@ -17,7 +18,7 @@ public class ConsoleLoggerServerImplementation implements ConsoleLoggerServer {
             private StringBuilder buffer = new StringBuilder();
 
             @Override
-            public void write(int b) throws IOException {
+            public void write(int b) {
                 char c = (char) b;
 
                 buffer.append(c);
@@ -27,7 +28,9 @@ public class ConsoleLoggerServerImplementation implements ConsoleLoggerServer {
 
                     consoleOut.print(line);
 
-                    if (!isSystemMessage(line)) {
+                    if (!isSystemMessageConnected(line) &&
+                            !isSystemMessageHistory(line) &&
+                            !isSystemMessageRequestHistory(line)) {
                         fileOut.print(line);
                     }
 
@@ -37,9 +40,17 @@ public class ConsoleLoggerServerImplementation implements ConsoleLoggerServer {
         });
 
         System.setOut(combinedOut);
-
     }
-    private static boolean isSystemMessage(String message) {
+
+    private static boolean isSystemMessageConnected(String message) {
         return message.contains("New client connected");
+    }
+
+    private static boolean isSystemMessageHistory(String message) {
+        return message.contains("Old message");
+    }
+
+    private static boolean isSystemMessageRequestHistory(String message) {
+        return message.contains("- request history data");
     }
 }
