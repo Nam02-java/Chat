@@ -12,12 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class InputDataFromServer {
-
     private BufferedReader inFromServer;
     private SocketInputReader socketInputReader;
-
     private ParseString parseString;
-
 
     public InputDataFromServer(SocketInputReader socketInputReader) {
         this.socketInputReader = socketInputReader;
