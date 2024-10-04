@@ -1,7 +1,9 @@
 package MVC.Controller.Client.Networking.Output;
 
+import MVC.Service.Enum.HistoryDataState;
 import MVC.Service.InterfaceService.IO.SocketDataOutput;
 import MVC.Service.InterfaceService.IO.UserInputReceiver;
+import MVC.Service.LazySingleton.HistoryData.HistoryDataManager;
 import MVC.Service.LazySingleton.UserName.UserNameManager;
 
 import java.io.BufferedReader;
@@ -22,6 +24,7 @@ public class OutputDataToServer {
         while (true) {
             String messageToSend = UserNameManager.getInstance().getUsername() + " : " + userInput.readLine();
             if (messageToSend.contains("1")) {
+                HistoryDataManager.getInstance().setHistoryDataState(HistoryDataState.LOADING);
                 messageToSend = UserNameManager.getInstance().getUsername() + " : - request history data";
             }
             socketDataOutput.sendData(serverSocket, messageToSend);

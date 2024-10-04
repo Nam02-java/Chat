@@ -1,6 +1,8 @@
 package MVC.Controller.Client.Networking.Input;
 
+import MVC.Service.Enum.HistoryDataState;
 import MVC.Service.InterfaceService.String.ParseString;
+import MVC.Service.LazySingleton.HistoryData.HistoryDataManager;
 import MVC.Service.LazySingleton.UserName.UserNameManager;
 import MVC.Service.InterfaceService.IO.SocketInputReader;
 import MVC.Service.ServiceImplenments.String.ParseStringImplementation;
@@ -29,11 +31,16 @@ public class InputDataFromServer {
                 List<String> list = new ArrayList<>();
                 int sizeHistoryData = 0;
                 while ((messageFromServer = inFromServer.readLine()) != null) {
-                    if (messageFromServer.contains("Old message")) {
+                    if (HistoryDataManager.getInstance().getHistoryDataState().equals(HistoryDataState.LOADING)) {
 
                         sizeHistoryData = parseString.getSize(messageFromServer, " - total message ");
 
                         messageFromServer = parseString.removeText(messageFromServer, " - total message ");
+
+                        if (messageFromServer.contains(UserNameManager.getInstance().getUsername())) {
+                            String userName = UserNameManager.getInstance().getUsername();
+                            messageFromServer = messageFromServer.replaceFirst(userName + " : ", "");
+                        }
 
                         list.add(messageFromServer);
                         if (list.size() == sizeHistoryData) {
@@ -41,9 +48,10 @@ public class InputDataFromServer {
                                 Thread.sleep(1000);
                                 System.out.println(list.get(i));
                             }
+                            HistoryDataManager.getInstance().setHistoryDataState(HistoryDataState.NO_LOADING);
                             list.clear();
                         }
-                    } else {
+                    } else if (HistoryDataManager.getInstance().getHistoryDataState().equals(HistoryDataState.NO_LOADING)) {
                         if (list.isEmpty()) {
                             if (messageFromServer.contains(UserNameManager.getInstance().getUsername())) {
                                 String userName = UserNameManager.getInstance().getUsername();
