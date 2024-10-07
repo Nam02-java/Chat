@@ -10,20 +10,15 @@ import java.net.Socket;
 import java.util.List;
 
 public class OutputDataToClient {
-
     private SocketDataOutput socketDataOutput;
-
     private ReadLogServer readLogServer;
-
     private Data data;
-
 
     public OutputDataToClient(SocketDataOutput socketDataOutput, ReadLogServer readLogServer, Data data) {
         this.socketDataOutput = socketDataOutput;
         this.readLogServer = readLogServer;
         this.data = data;
     }
-
     public void sendData(Socket clientSocket, BufferedReader inFromClient) {
         String messageFromClient;
 

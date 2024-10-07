@@ -2,6 +2,10 @@ package MVC.Service.ServiceImplenments.String;
 
 import MVC.Service.InterfaceService.String.ParseString;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
+
 public class ParseStringImplementation implements ParseString {
 
 
@@ -22,5 +26,21 @@ public class ParseStringImplementation implements ParseString {
             fullText = fullText.substring(0, index);
         }
         return fullText;
+    }
+
+    @Override
+    public int getID(String fullText) {
+
+        int id = 0;
+
+        Pattern pattern = Pattern.compile("\\(\\s*(\\d+)\\.");
+        Matcher matcher = pattern.matcher(fullText);
+
+        if (matcher.find()) {
+            String idStr = matcher.group(1);
+            id = Integer.parseInt(idStr);
+        }
+
+        return id;
     }
 }
