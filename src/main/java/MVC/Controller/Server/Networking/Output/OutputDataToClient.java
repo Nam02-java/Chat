@@ -1,10 +1,13 @@
 package MVC.Controller.Server.Networking.Output;
 
 import MVC.Model.Data;
+import MVC.Service.InterfaceService.File.ParseFile;
 import MVC.Service.InterfaceService.IO.SocketDataOutput;
 import MVC.Service.InterfaceService.Log.ReadLogServer;
+import MVC.Service.ServiceImplenments.File.ParseFileImplementation;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
 import java.util.List;
@@ -14,11 +17,15 @@ public class OutputDataToClient {
     private ReadLogServer readLogServer;
     private Data data;
 
+    private ParseFile parseFile;
+
     public OutputDataToClient(SocketDataOutput socketDataOutput, ReadLogServer readLogServer, Data data) {
         this.socketDataOutput = socketDataOutput;
         this.readLogServer = readLogServer;
         this.data = data;
+        this.parseFile = new ParseFileImplementation();
     }
+
     public void sendData(Socket clientSocket, BufferedReader inFromClient) {
         String messageFromClient;
 
@@ -36,7 +43,9 @@ public class OutputDataToClient {
                 } else {
                     for (Socket socket : Data.getClientSockets()) {
                         if (socket != clientSocket) {
-                            socketDataOutput.sendData(socket, messageFromClient);
+                            String ID = String.valueOf(parseFile.getBiggestID(new File(Data.getFilePath())));
+                            String fullMessage = ID + "." + " " + messageFromClient;
+                            socketDataOutput.sendData(socket, fullMessage);
                         }
                     }
                 }

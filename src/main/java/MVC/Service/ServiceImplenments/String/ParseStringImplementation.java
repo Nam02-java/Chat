@@ -29,8 +29,22 @@ public class ParseStringImplementation implements ParseString {
     }
 
     @Override
-    public int getID(String fullText) {
+    public int getIDFromCurrentMessage(String fullText) {
+        int id = 0;
 
+        Pattern pattern = Pattern.compile("^(\\d+)");
+        Matcher matcher = pattern.matcher(fullText);
+
+        if (matcher.find()) {
+            String idStr = matcher.group(1);
+            id = Integer.parseInt(idStr);
+        }
+
+        return id;
+    }
+
+    @Override
+    public int getIDFromHistoryMessage(String fullText) {
         int id = 0;
 
         Pattern pattern = Pattern.compile("\\(\\s*(\\d+)\\.");

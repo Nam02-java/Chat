@@ -7,6 +7,8 @@ public interface ParseString {
 
     String removeText(String fullText, String discardText);
 
-    int getID(String fullText);
+    int getIDFromCurrentMessage(String fullText);
+
+    int getIDFromHistoryMessage(String fullText);
 
 }

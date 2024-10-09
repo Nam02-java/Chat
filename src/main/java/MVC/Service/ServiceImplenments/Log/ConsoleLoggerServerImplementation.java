@@ -3,10 +3,8 @@ package MVC.Service.ServiceImplenments.Log;
 import MVC.Model.Data;
 import MVC.Service.InterfaceService.File.ParseFile;
 import MVC.Service.InterfaceService.Log.ConsoleLoggerServer;
-import MVC.Service.InterfaceService.String.ParseString;
 import MVC.Service.LazySingleton.ID.IDManager;
 import MVC.Service.ServiceImplenments.File.ParseFileImplementation;
-import MVC.Service.ServiceImplenments.String.ParseStringImplementation;
 
 import java.io.*;
 import java.util.regex.Matcher;
