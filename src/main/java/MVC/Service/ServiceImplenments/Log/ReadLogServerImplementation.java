@@ -2,13 +2,13 @@ package MVC.Service.ServiceImplenments.Log;
 
 import MVC.Model.Data;
 import MVC.Service.InterfaceService.Log.ReadLogServer;
-
 import java.io.IOException;
 import java.io.RandomAccessFile;
 import java.util.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
 
 public class ReadLogServerImplementation implements ReadLogServer {
 

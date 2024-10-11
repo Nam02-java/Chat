@@ -10,6 +10,16 @@ public class Data {
     private final static String filePath = "E:\\Save.txt";
     private int startLine = 0;
 
+    private int test = 0;
+
+    public int getTest() {
+        return test;
+    }
+
+    public void setTest(int test) {
+        this.test = test;
+    }
+
     public static ArrayList<Socket> getClientSockets() {
         return clientSockets;
     }

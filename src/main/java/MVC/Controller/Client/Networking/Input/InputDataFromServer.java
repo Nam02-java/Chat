@@ -12,8 +12,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.IOException;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class InputDataFromServer {
     private BufferedReader inFromServer;
@@ -32,50 +30,44 @@ public class InputDataFromServer {
         inFromServer = socketInputReader.getData(socket);
         new Thread(() -> {
             try {
-
                 String messageFromServer;
-                List<String> historyDataList = new ArrayList<>();
-                int sizeHistoryData = 0, serverHistoryMessageID = 0;
+                int serverCurrentMessageID = 0;
+                boolean flag = false;
 
                 while ((messageFromServer = inFromServer.readLine()) != null) {
                     int biggestID = parseFile.getBiggestID(new File(Data.getFilePath()));
+
                     if (messageFromServer.contains("Old message")) {
-                        serverHistoryMessageID = parseString.getIDFromHistoryMessage(messageFromServer);
-                        if (serverHistoryMessageID == biggestID) {
-                            serverHistoryMessageID = biggestID - 1;
-                        }
+                        flag = true;
+                        serverCurrentMessageID = parseString.getIDFromHistoryMessage(messageFromServer);
+
                     } else {
-                        serverHistoryMessageID = biggestID;
+                        if (flag == true) {
+                            continue;
+                        }
+                        flag = false;
+                        serverCurrentMessageID = biggestID;
                     }
 
-                    if (serverHistoryMessageID < biggestID) {
-                        sizeHistoryData = parseString.getSize(messageFromServer, " - total message ");
-                        messageFromServer = parseString.removeText(messageFromServer, " - total message ");
+                    if (serverCurrentMessageID < biggestID) {
+                        flag = false;
+
                         if (messageFromServer.contains(UserNameManager.getInstance().getUsername())) {
                             String userName = UserNameManager.getInstance().getUsername();
                             messageFromServer = messageFromServer.replaceFirst(userName + " : ", "");
                         }
-                        historyDataList.add(messageFromServer);
-                        if (historyDataList.size() == sizeHistoryData) {
-                            for (int i = 0; i < historyDataList.size(); i++) {
-                                Thread.sleep(1000);
-                                System.out.println(historyDataList.get(i));
-                            }
-                            historyDataList.clear();
-                        }
-                    } else if (historyDataList.isEmpty()) {
-                        if (messageFromServer.contains(UserNameManager.getInstance().getUsername())) {
-                            String userName = UserNameManager.getInstance().getUsername();
-                            messageFromServer = messageFromServer.replaceFirst(userName + " : ", "");
-                        }
-                        System.out.println(messageFromServer);
                     }
+
+                    if (messageFromServer.contains(UserNameManager.getInstance().getUsername())) {
+                        String userName = UserNameManager.getInstance().getUsername();
+                        messageFromServer = messageFromServer.replaceFirst(userName + " : ", "");
+                    }
+                    System.out.println(messageFromServer);
                 }
 
 
             } catch (IOException e) {
                 e.printStackTrace();
-            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }).start();

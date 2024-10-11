@@ -29,6 +29,8 @@ public class OutputDataToClient {
     public void sendData(Socket clientSocket, BufferedReader inFromClient) {
         String messageFromClient;
 
+        data.setTest(parseFile.getBiggestID(new File(Data.getFilePath())));
+
         try {
             while ((messageFromClient = inFromClient.readLine()) != null) {
 
@@ -37,7 +39,8 @@ public class OutputDataToClient {
                 if (messageFromClient.contains("- request history data")) {
                     List<String> listChatHistory = readLogServer.read(data);
                     for (String message : listChatHistory) {
-                        socketDataOutput.sendData(clientSocket, "Old message ( " + message + " ) - total message " + listChatHistory.size());
+                        //socketDataOutput.sendData(clientSocket, "Old message ( " + message + " ) - total message " + listChatHistory.size());
+                        socketDataOutput.sendData(clientSocket, "Old message ( " + message + " )");
                     }
 
                 } else {
