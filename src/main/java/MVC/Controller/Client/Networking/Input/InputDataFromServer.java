@@ -31,45 +31,61 @@ public class InputDataFromServer {
         new Thread(() -> {
             try {
                 String messageFromServer;
-                int serverCurrentMessageID = 0;
                 boolean flag = false;
-
                 while ((messageFromServer = inFromServer.readLine()) != null) {
-                    int biggestID = parseFile.getBiggestID(new File(Data.getFilePath()));
 
-                    if (messageFromServer.contains("Old message")) {
+                    int biggestID = parseFile.getBiggestID(new File(Data.getFilePath()));
+                    int serverCurrentMessageID = parseString.getIDFromHistoryMessage(messageFromServer);
+
+                    if (serverCurrentMessageID < biggestID) {
                         flag = true;
-                        serverCurrentMessageID = parseString.getIDFromHistoryMessage(messageFromServer);
 
                     } else {
-                        if (flag == true) {
+                        if (flag = true) {
                             continue;
                         }
                         flag = false;
-                        serverCurrentMessageID = biggestID;
-                    }
-
-                    if (serverCurrentMessageID < biggestID) {
-                        flag = false;
-
-                        if (messageFromServer.contains(UserNameManager.getInstance().getUsername())) {
-                            String userName = UserNameManager.getInstance().getUsername();
-                            messageFromServer = messageFromServer.replaceFirst(userName + " : ", "");
-                        }
                     }
 
                     if (messageFromServer.contains(UserNameManager.getInstance().getUsername())) {
                         String userName = UserNameManager.getInstance().getUsername();
                         messageFromServer = messageFromServer.replaceFirst(userName + " : ", "");
                     }
+                    Thread.sleep(1000);
                     System.out.println(messageFromServer);
+
                 }
-
-
             } catch (IOException e) {
                 e.printStackTrace();
+                throw new RuntimeException(e);
+            } catch (InterruptedException e) {
                 throw new RuntimeException(e);
             }
         }).start();
     }
 }
+
+//  int biggestID = parseFile.getBiggestID(new File(Data.getFilePath()));
+//                    if (messageFromServer.contains("Old message")) {
+//                        flag = true;
+//                        serverCurrentMessageID = parseString.getIDFromHistoryMessage(messageFromServer);
+//                    } else {
+//                        if (flag == true) {
+//                            continue;
+//                        }
+//                        flag = false;
+//                        serverCurrentMessageID = biggestID;
+//                    }
+//                    if (serverCurrentMessageID < biggestID) {
+//                        flag = false;
+//
+//                        if (messageFromServer.contains(UserNameManager.getInstance().getUsername())) {
+//                            String userName = UserNameManager.getInstance().getUsername();
+//                            messageFromServer = messageFromServer.replaceFirst(userName + " : ", "");
+//                        }
+//                    }
+//                    if (messageFromServer.contains(UserNameManager.getInstance().getUsername())) {
+//                        String userName = UserNameManager.getInstance().getUsername();
+//                        messageFromServer = messageFromServer.replaceFirst(userName + " : ", "");
+//                    }
+//                    System.out.println(messageFromServer);
