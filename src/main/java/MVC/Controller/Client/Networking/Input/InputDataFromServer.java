@@ -35,7 +35,7 @@ public class InputDataFromServer {
                 while ((messageFromServer = inFromServer.readLine()) != null) {
 
                     int biggestID = parseFile.getBiggestID(new File(Data.getFilePath()));
-                    int serverCurrentMessageID = parseString.getIDFromHistoryMessage(messageFromServer);
+                    int serverCurrentMessageID = parseString.getIDMessage(messageFromServer);
 
                     if (serverCurrentMessageID < biggestID) {
                         flag = true;
@@ -65,27 +65,3 @@ public class InputDataFromServer {
     }
 }
 
-//  int biggestID = parseFile.getBiggestID(new File(Data.getFilePath()));
-//                    if (messageFromServer.contains("Old message")) {
-//                        flag = true;
-//                        serverCurrentMessageID = parseString.getIDFromHistoryMessage(messageFromServer);
-//                    } else {
-//                        if (flag == true) {
-//                            continue;
-//                        }
-//                        flag = false;
-//                        serverCurrentMessageID = biggestID;
-//                    }
-//                    if (serverCurrentMessageID < biggestID) {
-//                        flag = false;
-//
-//                        if (messageFromServer.contains(UserNameManager.getInstance().getUsername())) {
-//                            String userName = UserNameManager.getInstance().getUsername();
-//                            messageFromServer = messageFromServer.replaceFirst(userName + " : ", "");
-//                        }
-//                    }
-//                    if (messageFromServer.contains(UserNameManager.getInstance().getUsername())) {
-//                        String userName = UserNameManager.getInstance().getUsername();
-//                        messageFromServer = messageFromServer.replaceFirst(userName + " : ", "");
-//                    }
-//                    System.out.println(messageFromServer);
