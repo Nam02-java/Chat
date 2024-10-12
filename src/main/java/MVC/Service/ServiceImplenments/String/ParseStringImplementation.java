@@ -43,18 +43,15 @@ public class ParseStringImplementation implements ParseString {
         return id;
     }
 
-    @Override
-    public int getIDFromHistoryMessage(String fullText) {
-        int id = 0;
-
-        Pattern pattern = Pattern.compile("\\(\\s*(\\d+)\\.");
-        Matcher matcher = pattern.matcher(fullText);
+     @Override
+    public Integer getIDMessage(String input) {
+        String regex = "\\b\\d+\\b";
+        java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regex);
+        java.util.regex.Matcher matcher = pattern.matcher(input);
 
         if (matcher.find()) {
-            String idStr = matcher.group(1);
-            id = Integer.parseInt(idStr);
+            return Integer.parseInt(matcher.group());
         }
-
-        return id;
+        return null;
     }
 }
