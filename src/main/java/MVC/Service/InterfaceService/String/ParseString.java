@@ -9,6 +9,6 @@ public interface ParseString {
 
     int getIDFromCurrentMessage(String fullText);
 
-    int  getIDMessage(String input);
+    Integer  getIDMessage(String input);
 
 }

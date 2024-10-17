@@ -43,7 +43,7 @@ public class ParseStringImplementation implements ParseString {
         return id;
     }
 
-     @Override
+    @Override
     public Integer getIDMessage(String input) {
         String regex = "\\b\\d+\\b";
         java.util.regex.Pattern pattern = java.util.regex.Pattern.compile(regex);

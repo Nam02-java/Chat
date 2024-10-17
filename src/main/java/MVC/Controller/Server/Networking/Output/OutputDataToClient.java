@@ -29,7 +29,6 @@ public class OutputDataToClient {
     public void sendData(Socket clientSocket, BufferedReader inFromClient) {
         String messageFromClient;
 
-        data.setTest(parseFile.getBiggestID(new File(Data.getFilePath())));
 
         try {
             while ((messageFromClient = inFromClient.readLine()) != null) {

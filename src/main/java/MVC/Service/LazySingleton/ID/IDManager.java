@@ -23,5 +23,4 @@ public class IDManager {
     public int getMaxReceivedId() {
         return maxReceivedId;
     }
-
 }
